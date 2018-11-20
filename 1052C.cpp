@@ -1,0 +1,37 @@
+#include<stdio.h>
+#include<algorithm>
+using namespace std;
+int gcd(int a,int b){
+    if(a%b==0) return b;
+    else return gcd(b,a%b);
+}
+const int M=3e5+5;
+const int N=1e7+5e6+5;
+int n,g,a[M],b[N],p[N],m;
+int main(){
+    scanf("%d",&n);
+    for(int i=1;i<=n;i++){
+        scanf("%d",&a[i]);
+        if(i==1) g=a[i];
+        g=gcd(g,a[i]);
+        m=max(m,a[i]);
+    }
+    for(int i=1;i<=n;i++){
+        b[a[i]/g]++;
+    }
+    int ans=0;
+    for(int i=2;i<=m;i++){
+        if(p[i]==0){
+            int res=0;
+            for(int j=i;j<=m;j+=i){
+                p[j]=1;
+                res+=b[j];
+            }
+        ans=max(ans,res);
+        }
+    }
+    if(ans==0)
+        printf("%d\n",-1);
+    else
+        printf("%d\n",n-ans);
+}
